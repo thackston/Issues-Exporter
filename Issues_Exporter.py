@@ -3,10 +3,6 @@ import csv
 import json
 import getpass
 
-#from sys import argv
-
-#script, filename = argv
-
 user = raw_input("What is your Github username? ")
 password = getpass.getpass(prompt = "What is your password? ")
 org = raw_input("What organization are you querying? ")
@@ -14,7 +10,6 @@ repo = raw_input("And which repo? ")
 base_url = 'https://api.github.com/repos/'
 creds = (user, password)
 headers = {'content-type': 'application/vnd.github.v3.full+json'}
-#target = open(filename, 'w')
 
 
 
@@ -22,10 +17,8 @@ def get_issues():
     whole_url = base_url + org + '/' + repo + '/issues?per_page=1000'
     print whole_url
     issues = requests.get('%s'% whole_url, auth = creds, headers = headers) 
-   ## target.write(issues.content)
     return issues.content
 
-issues = get_issues()
 
 data = json.loads(issues)
 
@@ -67,8 +60,7 @@ for item in data:
         ]
     target.writerow(issue)
 
-#    print item['title']
- # target.writerow([item['id'], item['html_url']] + item['title'].values())
+
 
     
     
