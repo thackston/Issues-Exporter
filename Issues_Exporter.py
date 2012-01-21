@@ -37,24 +37,24 @@ csv_file.writerow(titles)
     
 for issue in issues:
     label = []
-    for l in item['labels']:
+    for l in issue['labels']:
         label.append(l['name'])
    
     row = [
-            item['number'],
-            item['title'].encode('utf8'),
-            item['body'].encode('utf8'),
-            item['state'], 
-            item['user']['login'],
+            issue['number'],
+            issue['title'].encode('utf8'),
+            issue['body'].encode('utf8'),
+            issue['state'], 
+            issue['user']['login'],
             ", ".join(label) ,
-            item['created_at'],
-            item['updated_at'],
-            item['closed_at']
+            issue['created_at'],
+            issue['updated_at'],
+            issue['closed_at']
              
            
         ]
 
-    target.writerow(issue)
+    csv_file.writerow(row)
 
 
 
