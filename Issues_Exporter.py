@@ -11,16 +11,13 @@ base_url = 'https://api.github.com/repos/'
 creds = (user, password)
 headers = {'content-type': 'application/vnd.github.v3.full+json'}
 
-
-
 def get_issues():
     whole_url = base_url + org + '/' + repo + '/issues?per_page=1000'
     print whole_url
-    issues = requests.get('%s'% whole_url, auth = creds, headers = headers) 
-    return issues.content
+    response = requests.get('%s'% whole_url, auth = creds, headers = headers) 
+    return response.content
 
-
-data = json.loads(issues)
+issues = json.loads(get_issues())
 
 titles = [
         'id',
@@ -34,18 +31,16 @@ titles = [
         'closed_at',
     ]
 
-target = csv.writer(open('test.csv','wb+'))
+csv_file = csv.writer(open('test.csv','wb+'))
 
-target.writerow(titles)
+csv_file.writerow(titles)
     
-
-
-for item in data:
+for issue in issues:
     label = []
     for l in item['labels']:
         label.append(l['name'])
-        
-    issue = [
+   
+    row = [
             item['number'],
             item['title'].encode('utf8'),
             item['body'].encode('utf8'),
@@ -58,6 +53,7 @@ for item in data:
              
            
         ]
+
     target.writerow(issue)
 
 
